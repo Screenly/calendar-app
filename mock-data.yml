@@ -1,0 +1,17 @@
+settings:
+  calendar_mode: weekly
+  override_locale: en
+  bypass_cors: 'true'
+  display_errors: 'false'
+  override_timezone: ''
+  ical_url: 'https://calendar.google.com/calendar/ical/nicomiguelino2014%40gmail.com/private-495263c8e15ad47a07d7eb511da385ab/basic.ics'
+metadata:
+  coordinates:
+  - '37.3861'
+  - '-122.0839'
+  hardware: x86
+  hostname: srly-t6kb0ta1jrd9o0w
+  location: Silicon Valley, USA
+  screen_name: Code Cafe Display
+  tags:
+  - All Screens

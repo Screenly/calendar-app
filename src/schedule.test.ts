@@ -205,7 +205,11 @@ describe('formatEventTime', () => {
       '2026-08-12T15:30:00Z',
     )
 
-    expect(formatEventTime(event, LOCALE, TIMEZONE)).toBe('15:00 – 16:30')
+    // Intl spaces the range dash differently between ICU versions, so match
+    // the times rather than the separator
+    expect(formatEventTime(event, LOCALE, TIMEZONE)).toMatch(
+      /^15:00\s*–\s*16:30$/,
+    )
   })
 
   test('labels all-day events', () => {

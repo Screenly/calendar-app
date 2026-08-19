@@ -1,1 +1,360 @@
-@import '@screenly/edge-apps/styles/calendar-app';
+@import '@screenly/edge-apps/styles';
+
+/*
+ * The palette lives on body rather than :root so that the light-brand override
+ * below wins for every value, including --agenda-accent-ink, which resolves
+ * var(--agenda-ink) against whichever value the cascade settles on.
+ *
+ * The brand colour is unknown until runtime and is drawn on top of the canvas,
+ * so it is mixed towards the text colour first. That keeps a very dark or very
+ * light brand readable instead of sinking into the background.
+ */
+body {
+  --agenda-accent: var(--theme-color-primary, #972eff);
+  --agenda-accent-ink: color-mix(
+    in srgb,
+    var(--agenda-accent) 65%,
+    var(--agenda-ink)
+  );
+  --agenda-canvas: #08080d;
+  --agenda-ink: #fff;
+  --agenda-ink-dim: rgb(255 255 255 / 55%);
+  --agenda-rule: rgb(255 255 255 / 12%);
+
+  color: var(--agenda-ink);
+  background-color: var(--agenda-canvas);
+  background-image: radial-gradient(
+    ellipse 70% 60% at 0% 0%,
+    color-mix(in srgb, var(--agenda-accent) 40%, transparent),
+    transparent
+  );
+}
+
+body.is-light-brand {
+  --agenda-canvas: #f6f6f8;
+  --agenda-ink: #0a0a0f;
+  --agenda-ink-dim: rgb(10 10 15 / 58%);
+  --agenda-rule: rgb(10 10 15 / 14%);
+}
+
+auto-scaler {
+  position: relative;
+  z-index: var(--z-index-content);
+}
+
+.agenda {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  width: 100%;
+  height: 100%;
+  padding: 3rem 3.5rem;
+}
+
+.agenda-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 0.0625rem solid var(--agenda-rule);
+}
+
+.agenda-date {
+  margin: 0;
+  color: var(--agenda-ink-dim);
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.agenda-brand {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.agenda-clock {
+  font-size: 2.25rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.agenda-logo {
+  max-width: 12rem;
+  max-height: 3.5rem;
+  object-fit: contain;
+}
+
+.agenda-logo.is-hidden {
+  display: none;
+}
+
+.agenda-body {
+  display: flex;
+  flex: 1;
+  gap: 4rem;
+  min-height: 0;
+}
+
+.agenda-next {
+  display: flex;
+  flex: 1 1 52%;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.75rem;
+  padding-left: 2.5rem;
+  border-left: 0.5rem solid var(--agenda-rule);
+}
+
+.agenda-next.is-now {
+  border-left-color: var(--agenda-accent-ink);
+}
+
+.agenda-next-when {
+  align-self: flex-start;
+  margin: 0;
+  padding: 0.6rem 1.5rem;
+  border-radius: 6rem;
+  background-color: color-mix(
+    in srgb,
+    var(--agenda-accent) 26%,
+    var(--agenda-canvas)
+  );
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.agenda-next-time {
+  margin: 0;
+  color: var(--agenda-ink-dim);
+  font-size: 3.25rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.agenda-next-title {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0;
+  font-size: 7rem;
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.agenda-later {
+  display: flex;
+  flex: 1 1 48%;
+  flex-direction: column;
+  gap: 2.5rem;
+  min-height: 0;
+}
+
+.agenda-day {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.agenda-day-label {
+  margin: 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 0.0625rem solid var(--agenda-rule);
+  color: var(--agenda-accent-ink);
+  font-size: 1.55rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.agenda-day-events {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.agenda-event {
+  display: flex;
+  gap: 2rem;
+  align-items: baseline;
+}
+
+.agenda-event-time {
+  flex: 0 0 11rem;
+  color: var(--agenda-ink-dim);
+  font-size: 2.05rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.agenda-event.is-now .agenda-event-time {
+  color: var(--agenda-accent-ink);
+}
+
+.agenda-event-title {
+  display: -webkit-box;
+  flex: 1;
+  overflow: hidden;
+  font-size: 2.35rem;
+  font-weight: 500;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.agenda-more {
+  margin: 0;
+  color: var(--agenda-ink-dim);
+  font-size: 1.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.agenda-status {
+  display: none;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  color: var(--agenda-ink-dim);
+  font-size: 3.5rem;
+  font-weight: 500;
+}
+
+/*
+ * Next event only: one event fills the screen, for a panel outside a meeting
+ * room. The accent rail and "now" pill still say whether the room is in use.
+ */
+body.is-next-only .agenda-later {
+  display: none;
+}
+
+body.is-next-only .agenda-next {
+  flex: 1;
+  gap: 2.5rem;
+  padding-left: 4rem;
+  border-left-width: 0.875rem;
+}
+
+body.is-next-only .agenda-next-when {
+  padding: 0.9rem 2.25rem;
+  font-size: 2.5rem;
+}
+
+body.is-next-only .agenda-next-time {
+  font-size: 5rem;
+}
+
+body.is-next-only .agenda-next-title {
+  font-size: 11rem;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+body.is-next-only .agenda-next-title.is-long {
+  font-size: 8rem;
+}
+
+body.is-next-only .agenda-next-title.is-very-long {
+  font-size: 5.5rem;
+}
+
+body.has-nothing-later .agenda-later {
+  display: none;
+}
+
+body.has-status .agenda-body {
+  display: none;
+}
+
+body.has-status .agenda-status {
+  display: flex;
+}
+
+@media (orientation: portrait) {
+  .agenda {
+    gap: 3.5rem;
+    padding: 4rem;
+  }
+
+  .agenda-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .agenda-date {
+    font-size: 2.25rem;
+  }
+
+  .agenda-body {
+    flex-direction: column;
+    gap: 3.5rem;
+  }
+
+  .agenda-next {
+    flex: 0 0 auto;
+    gap: 2rem;
+  }
+
+  .agenda-next-title {
+    font-size: 8rem;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .agenda-later {
+    flex: 1 1 auto;
+    gap: 3.25rem;
+  }
+
+  .agenda-day-label {
+    font-size: 1.85rem;
+  }
+
+  .agenda-event-time {
+    flex-basis: 14.5rem;
+    font-size: 2.6rem;
+  }
+
+  .agenda-event-title {
+    font-size: 2.9rem;
+  }
+
+  body.is-next-only .agenda-next-when {
+    font-size: 2.25rem;
+  }
+
+  body.is-next-only .agenda-next-time {
+    font-size: 4.25rem;
+  }
+
+  body.is-next-only .agenda-next-title {
+    font-size: 9rem;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+  }
+
+  body.is-next-only .agenda-next-title.is-long {
+    font-size: 5.5rem;
+  }
+
+  body.is-next-only .agenda-next-title.is-very-long {
+    font-size: 4.5rem;
+  }
+}

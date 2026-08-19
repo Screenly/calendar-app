@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Calendar</title>
+    <title>Calendar - Screenly Edge App</title>
     <script src="screenly.js?version=1"></script>
   </head>
   <body>
@@ -11,25 +11,27 @@
       reference-width="1920"
       reference-height="1080"
       orientation="auto"
-      padding="0"
-      center-content
     >
-      <div id="app">
-        <app-header class="header" show-date></app-header>
-        <main class="content">
-          <schedule-calendar-view
-            id="schedule-calendar"
-            class="calendar-view"
-          ></schedule-calendar-view>
-          <weekly-calendar-view
-            id="weekly-calendar"
-            class="calendar-view"
-          ></weekly-calendar-view>
-          <daily-calendar-view
-            id="daily-calendar"
-            class="calendar-view"
-          ></daily-calendar-view>
-        </main>
+      <div class="agenda">
+        <header class="agenda-header">
+          <p class="agenda-date" data-date>--</p>
+          <div class="agenda-brand">
+            <span class="agenda-clock" data-clock>--:--</span>
+            <img class="agenda-logo" alt="" data-logo />
+          </div>
+        </header>
+
+        <div class="agenda-body">
+          <section class="agenda-next" data-next>
+            <p class="agenda-next-when" data-next-when></p>
+            <p class="agenda-next-time" data-next-time></p>
+            <h1 class="agenda-next-title" data-next-title></h1>
+          </section>
+
+          <section class="agenda-later" data-later></section>
+        </div>
+
+        <p class="agenda-status" data-status></p>
       </div>
     </auto-scaler>
     <script type="module" src="/src/main.ts"></script>

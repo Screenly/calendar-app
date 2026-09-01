@@ -19,17 +19,17 @@ settings:
   calendar_mode:
     type: string
     default_value: schedule
-    title: Calendar Mode
+    title: Time Range
     optional: true
     help_text:
       properties:
-        help_text: Select the calendar view mode.
+        help_text: How far ahead to look for events.
         options:
-          - label: Schedule
+          - label: Next 30 days
             value: schedule
-          - label: Weekly
+          - label: Next 7 days
             value: weekly
-          - label: Daily
+          - label: Today only
             value: daily
         type: select
       schema_version: 1
@@ -50,6 +50,17 @@ settings:
     optional: false
     help_text: |
       Enter the public iCal feed URL for your calendar.
+  next_event_only:
+    type: string
+    default_value: 'false'
+    title: Next Event Only
+    optional: true
+    help_text:
+      properties:
+        help_text: Show only the current or next event, filling the screen. Suits
+          a small display outside a meeting room.
+        type: boolean
+      schema_version: 1
   override_locale:
     type: string
     default_value: en

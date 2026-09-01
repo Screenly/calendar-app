@@ -137,16 +137,22 @@ UID:event-15@test
 END:VEVENT
 END:VCALENDAR`
 
-const CALENDAR_MODES = ['schedule', 'weekly', 'daily'] as const
+const VARIANTS = [
+  { name: 'schedule', calendarMode: 'schedule', nextEventOnly: 'false' },
+  { name: 'weekly', calendarMode: 'weekly', nextEventOnly: 'false' },
+  { name: 'daily', calendarMode: 'daily', nextEventOnly: 'false' },
+  { name: 'next-only', calendarMode: 'schedule', nextEventOnly: 'true' },
+] as const
 
-for (const mode of CALENDAR_MODES) {
+for (const { name: mode, calendarMode, nextEventOnly } of VARIANTS) {
   const { screenlyJsContent } = createMockScreenlyForScreenshots(
     { coordinates: [40.7128, -74.006], location: 'New York, NY' },
     {
       bypass_cors: 'false',
-      calendar_mode: mode,
+      calendar_mode: calendarMode,
       display_errors: 'false',
       ical_url: ICAL_URL,
+      next_event_only: nextEventOnly,
       override_locale: 'en',
       override_timezone: 'America/New_York',
       screenly_color_accent: '#2E8B57',

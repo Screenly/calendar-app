@@ -6,7 +6,7 @@
     <title>Calendar</title>
     <script src="screenly.js?version=1"></script>
   </head>
-  <body>
+  <body class="bg-black">
     <auto-scaler
       reference-width="1920"
       reference-height="1080"
@@ -14,20 +14,25 @@
       padding="0"
       center-content
     >
-      <div id="app">
-        <app-header class="header" show-date></app-header>
-        <main class="content">
+      <div id="app" class="flex flex-col w-full h-full bg-[#f3f5f7]">
+        <app-header
+          class="header flex-shrink-0 mt-3 mx-[1.3125rem] mb-0 w-[calc(100%-2.625rem)] bg-[var(--theme-color-primary,#0f3a97)] text-white"
+          show-date
+        ></app-header>
+        <main
+          class="content flex flex-1 min-h-0 pt-2 px-2 pb-3 overflow-hidden"
+        >
           <schedule-calendar-view
             id="schedule-calendar"
-            class="calendar-view"
+            class="calendar-view flex-1 min-h-0 min-w-0 hidden [&.active]:flex"
           ></schedule-calendar-view>
           <weekly-calendar-view
             id="weekly-calendar"
-            class="calendar-view"
+            class="calendar-view flex-1 min-h-0 min-w-0 hidden [&.active]:flex"
           ></weekly-calendar-view>
           <daily-calendar-view
             id="daily-calendar"
-            class="calendar-view"
+            class="calendar-view flex-1 min-h-0 min-w-0 hidden [&.active]:flex"
           ></daily-calendar-view>
         </main>
       </div>

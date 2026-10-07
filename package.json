@@ -32,6 +32,6 @@
     "npm-run-all2": "^9.0.3",
     "ical.js": "^2.2.1",
     "prettier": "^3.9.6",
-    "typescript": "^7.0.2"
+    "typescript": "^6.0.3"
   }
 }

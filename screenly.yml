@@ -1,7 +1,7 @@
 ---
 syntax: manifest_v1
 description: Screenly Calendar Edge App
-icon: https://playground.srly.io/edge-apps/calendar/static/img/icon.svg
+icon: https://playground.srly.io/edge-apps/icons/calendar.svg
 author: Screenly, Inc.
 categories:
   - Productivity

@@ -1,4 +1,5 @@
 settings:
+  next_event_only: 'false'
   calendar_mode: weekly
   override_locale: en
   bypass_cors: 'true'

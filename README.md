@@ -27,12 +27,12 @@ screenly edge-app setting set bypass_cors=true
 
 This repo uses [Screenly/edge-apps-actions](https://github.com/Screenly/edge-apps-actions) (`@v26.10.0`):
 
-| Workflow | When it runs | Target |
-| -------- | ------------ | ------ |
-| **Initialize Edge App** | Manual (`workflow_dispatch`) | stage or production (first create) |
-| **Update Edge App** | Push to `main`, or manual | stage |
-| **Update Edge App** | Push of a `v[0-9]*` tag on `main` | production |
-| **Checks** | Push / PR to `main` or `development` | lint, format, test, build |
+| Workflow                | When it runs                         | Target                             |
+| ----------------------- | ------------------------------------ | ---------------------------------- |
+| **Initialize Edge App** | Manual (`workflow_dispatch`)         | stage or production (first create) |
+| **Update Edge App**     | Push to `main`, or manual            | stage                              |
+| **Update Edge App**     | Push of a `v[0-9]*` tag on `main`    | production                         |
+| **Checks**              | Push / PR to `main` or `development` | lint, format, test, build          |
 
 GitHub setup (once):
 

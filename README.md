@@ -1,4 +1,8 @@
+[![Version](https://img.shields.io/github/v/release/Screenly/calendar-app)](https://github.com/Screenly/calendar-app/releases/latest)
+
 # Screenly Calendar App
+
+![Calendar App Preview](/screenshots/weekly-1920x1080.webp)
 
 ## Getting Started
 

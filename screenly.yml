@@ -1,6 +1,6 @@
 ---
 syntax: manifest_v1
-description: Screenly Calendar Edge App
+description: Display events from your calendar on a digital sign
 icon: https://playground.srly.io/edge-apps/icons/calendar.svg
 author: Screenly, Inc.
 categories:

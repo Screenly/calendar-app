@@ -1,19 +1,14 @@
 import ical from 'ical.js'
-import {
-  getSettingWithDefault,
-  getCalendarDateRange,
-} from '@screenly/edge-apps'
+import { getSettingWithDefault } from '@screenly/edge-apps'
 import type { CalendarEvent } from '@screenly/edge-apps'
+import { MAX_HORIZON_DAYS } from './schedule.js'
 
-interface FetchSettings {
-  timezone: string
-}
+const MS_PER_DAY = 24 * 60 * 60 * 1000
 
-export const fetchCalendarEventsFromICal = async (
-  settings: FetchSettings,
-): Promise<CalendarEvent[]> => {
+export const fetchCalendarEventsFromICal = async (): Promise<
+  CalendarEvent[]
+> => {
   try {
-    const { timezone } = settings
     const screenlySettings = screenly.settings
     const { ical_url: icalUrl } = screenlySettings
     const corsProxy = screenly.cors_proxy_url
@@ -33,10 +28,8 @@ export const fetchCalendarEventsFromICal = async (
     const vcalendar = new ical.Component(jcalData)
     const vevents = vcalendar.getAllSubcomponents('vevent')
 
-    const { startDate, endDate } = getCalendarDateRange(timezone)
-
-    const startTimestamp = startDate.getTime()
-    const endTimestamp = endDate.getTime()
+    const now = Date.now()
+    const horizonTimestamp = now + MAX_HORIZON_DAYS * MS_PER_DAY
 
     const chunkSize = 100
     const events: CalendarEvent[] = []
@@ -47,13 +40,10 @@ export const fetchCalendarEventsFromICal = async (
       chunk.forEach((vevent) => {
         const event = new ical.Event(vevent)
         const eventStart = event.startDate.toJSDate()
-        const eventTimestamp = eventStart.getTime()
-
-        if (eventTimestamp >= endTimestamp || eventTimestamp < startTimestamp) {
-          return
-        }
-
         const eventEnd = event.endDate.toJSDate()
+
+        if (eventStart.getTime() >= horizonTimestamp) return
+        if (eventEnd.getTime() <= now) return
 
         events.push({
           id: event.uid || undefined,

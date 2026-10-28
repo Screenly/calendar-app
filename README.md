@@ -1,4 +1,8 @@
+[![Version](https://img.shields.io/github/v/release/Screenly/calendar-app)](https://github.com/Screenly/calendar-app/releases/latest)
+
 # Screenly Calendar App
+
+![Calendar App Preview](/screenshots/weekly-1920x1080.webp)
 
 ## Getting Started
 
@@ -8,7 +12,7 @@ bun install
 
 ## Deployment
 
-Create and deploy the Edge App:
+Create and deploy the Edge App locally:
 
 ```bash
 screenly edge-app create --name calendar --in-place
@@ -22,6 +26,42 @@ Configure the required settings:
 screenly edge-app setting set ical_url=<YOUR_ICAL_URL>
 screenly edge-app setting set bypass_cors=true
 ```
+
+### CI / CD
+
+This repo uses [Screenly/edge-apps-actions](https://github.com/Screenly/edge-apps-actions) (`@v26.10.0`):
+
+| Workflow                | When it runs                         | Target                             |
+| ----------------------- | ------------------------------------ | ---------------------------------- |
+| **Initialize Edge App** | Manual (`workflow_dispatch`)         | stage or production (first create) |
+| **Update Edge App**     | Push to `main`, or manual            | stage                              |
+| **Update Edge App**     | Push of a `v[0-9]*` tag on `main`    | production                         |
+| **Checks**              | Push / PR to `main` or `development` | lint, format, test, build          |
+
+GitHub setup (once):
+
+1. Create Environments named `stage` and `production`.
+2. Add secret `SCREENLY_API_TOKEN` for both.
+3. Run **Initialize Edge App** for stage, then production (leave the Edge App id vars unset on first create).
+4. Copy each printed Edge App id into repo variables `STAGE_EDGE_APP_ID` and `PRODUCTION_EDGE_APP_ID`.
+
+### Releasing
+
+Pushes to `main` deploy to stage automatically. To release to production, tag a commit on `main` and push the tag (the workflow refuses tags not on `main`):
+
+```bash
+git checkout main && git pull
+git tag v26.10.0
+git push origin v26.10.0
+```
+
+Then publish a GitHub Release whose notes list the pull requests merged since the previous release. Add `--draft` to review the notes before publishing:
+
+```bash
+gh release create v26.10.0 --verify-tag --generate-notes --title v26.10.0
+```
+
+Use the `vYY.M.PATCH` scheme (e.g. `v26.10.0` for the first release in October 2026, `v26.10.1` for the next one that month).
 
 ## Configuration
 

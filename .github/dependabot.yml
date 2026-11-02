@@ -5,6 +5,10 @@ updates:
     directory: '/'
     schedule:
       interval: 'monthly'
+    ignore:
+      # typescript-eslint (via @screenly/edge-apps) cannot load under TypeScript 7 yet
+      - dependency-name: 'typescript'
+        update-types: ['version-update:semver-major']
     groups:
       bun:
         patterns:
